@@ -24,7 +24,7 @@ import java.io.InputStream;
  * Example of optimization using a permutation encoding to solve the traveling
  * salesman problem (TSP) on the {@code a280.tsp} instance.
  */
-public class A280Example {
+public class A2803OptExample {
 
 	/**
 	 * Starts the example running the TSP problem.
@@ -36,14 +36,14 @@ public class A280Example {
 		InputStream is = null;
 		
 		try {
-			is = A280Example.class.getResourceAsStream("a280.tsp");
+			is = A2803OptExample.class.getResourceAsStream("a280.tsp");
 			
 			if (is == null) {
 				System.err.println("Unable to find the file a280.tsp");
 				System.exit(-1);
 			}
 			
-			TSPAFDExample.solve(is);
+			TSP3OptExample.solve(is);
 		} finally {
 			if (is != null) {
 				is.close();

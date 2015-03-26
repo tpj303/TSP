@@ -26,10 +26,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Properties;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -44,7 +40,6 @@ import org.moeaframework.core.Solution;
 import org.moeaframework.core.spi.AlgorithmFactory;
 import org.moeaframework.core.variable.EncodingUtils;
 import org.moeaframework.problem.AbstractProblem;
-import org.moeaframework.util.LogToFile;
 
 /**
  * Demonstration of optimizing a TSP problem using the MOEA Framework
@@ -54,7 +49,7 @@ import org.moeaframework.util.LogToFile;
  * indicating the best tour found by the optimization algorithm.  Light gray
  * lines are the other (sub-optimal) tours in the population.
  */
-public class TSPExample {
+public class TSP3OptExample {
 	
 	/**
 	 * The color for population members.
@@ -111,7 +106,7 @@ public class TSPExample {
 		/**
 		 * The TSP heuristic for aiding the optimization process.
 		 */
-		private final TSP2OptHeuristic heuristic;
+		private final TSP3OptHeuristic heuristic;
 		
 		/**
 		 * Constructs a new optimization problem for the given TSP problem
@@ -123,7 +118,7 @@ public class TSPExample {
 			super(1, 1);
 			this.instance = instance;
 			
-			heuristic = new TSP2OptHeuristic(instance);
+			heuristic = new TSP3OptHeuristic(instance);
 		}
 
 		@Override
@@ -187,25 +182,15 @@ public class TSPExample {
 		properties.setProperty("insertion.rate", "0.9");
 		properties.setProperty("pmx.rate", "0.4");
 		
-		properties.setProperty("pm.rate", "1.0");
-		properties.setProperty("pm.distributionIndex", "20.0");
-		properties.setProperty("de.crossoverRate", "0.1");
-		properties.setProperty("de.stepSize", "0.5");
-		
-		
-		// algorithmname Model "MOEAD","GDE3","NSGAII","NSGAIII","eNSGAII","eMOEA","Random"
-		
-		String algorithmname = "NSGAIII";
-		
 		Algorithm algorithm = AlgorithmFactory.getInstance().getAlgorithm(
-				algorithmname, properties, problem);
+				"NSGAII", properties, problem);
 		
-		Logger logger = LogToFile.setLoggerHanlder(Logger.getLogger("my.logger"), Level.FINEST, "TSP_"+algorithmname+"_"+instance.getName()+"_");  
-		logger.info("Iteration,Distance,Time"); //Log Header
 		int iteration = 0;
+
 		long stime;
 		//Reset currentTime
         stime = System.currentTimeMillis();
+
 		// now run the evolutionary algorithm
 		while (frame.isVisible()) {
 			algorithm.step();
@@ -227,12 +212,9 @@ public class TSPExample {
 			Tour best = toTour(algorithm.getResult().get(0));
 			panel.displayTour(best, Color.RED, new BasicStroke(2.0f));
 			progress.insert(0, "Iteration " + iteration + ": " +
-					best.distance(instance) +" 共用 " + (System.currentTimeMillis()-stime)/1000 + " 秒"+ "\n");
+					best.distance(instance) +"共用 " + (System.currentTimeMillis()-stime)/1000 + " 秒"+ "\n");
 			progressText.setText(progress.toString());
 			
-			//Log info
-			logger.info(iteration + ","+ best.distance(instance) +"," + (System.currentTimeMillis()-stime)/1000); 
-
 			// repaint the TSP display
 			panel.repaint();
 		}

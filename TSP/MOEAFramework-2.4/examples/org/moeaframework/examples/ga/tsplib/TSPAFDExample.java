@@ -54,7 +54,7 @@ import org.moeaframework.util.LogToFile;
  * indicating the best tour found by the optimization algorithm.  Light gray
  * lines are the other (sub-optimal) tours in the population.
  */
-public class TSPExample {
+public class TSPAFDExample {
 	
 	/**
 	 * The color for population members.
@@ -111,7 +111,7 @@ public class TSPExample {
 		/**
 		 * The TSP heuristic for aiding the optimization process.
 		 */
-		private final TSP2OptHeuristic heuristic;
+		private final TSP2OptAFDHeuristic heuristic;
 		
 		/**
 		 * Constructs a new optimization problem for the given TSP problem
@@ -123,7 +123,7 @@ public class TSPExample {
 			super(1, 1);
 			this.instance = instance;
 			
-			heuristic = new TSP2OptHeuristic(instance);
+			heuristic = new TSP2OptAFDHeuristic(instance);
 		}
 
 		@Override
